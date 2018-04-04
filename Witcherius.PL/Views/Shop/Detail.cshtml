@@ -1,0 +1,61 @@
+﻿@model Witcherius.PL.Models.ShopCharacterModel
+
+@{
+    ViewBag.Title = "Items";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Buy items</h2>
+<div>
+    <h4>@Model.Shop.Name</h4>
+    <hr />
+    <div class="row clearfix">
+        <div class="col-xs-4">
+            <div align="center">
+                <img src="@Url.Content("~/Content/images/shops/shop_"+ Model.Shop.ArmorClass.ToString().ToLower() + ".jpg")" alt="shop avatar" />
+                @if (Model.Character.Inventory.IsFull)
+                {
+                    <div style="margin-top: 20px">
+                        <p class="alert-danger alert">You don't have enough inventory space to buy item.</p>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-xs-8" align="center">
+            @foreach(var item in Model.Shop.Items)
+            {
+                try
+                {
+                    <div class="col-xs-1 item-detail">
+                        <img src="@Url.Content("~/Content/images/items/" + item.Image)" data-toggle="tooltip" data-placement="right" title="@item.Name" />
+                        <span class="hp"><i class="glyphicon glyphicon-heart">@item.Attributes.Hp</i></span>
+                        <span class="def"><i class="glyphicon glyphicon-stats">@item.Attributes.Defense</i></span>
+                        <span class="att"><i class="glyphicon glyphicon-fire">@item.Attributes.Damage</i></span><br />
+                        @if ((int)(item.Price*1.5) > Model.Character.Gold)
+                        {
+                            <span>Not enough $!</span><br/>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("BuyItem", new {item.Id, charId = Model.Character.Id, shopId = Model.Shop.Id})">Buy (@((int)(item.Price*1.5)))</a><br />
+                        }
+                        <span>Level(@item.RequiredLevel)</span><br />
+                    </div>
+                }
+                catch (Exception e)
+                {
+                    <div class="col-xs-1 item-detail">
+                        <img src="@Url.Content("~/Content/images/items/empty.jpg")" data-toggle="tooltip" data-placement="right" title="Empty Space" />
+                        Empty space
+                    </div>
+                }
+            }
+        </div>        
+    </div>
+    @if ((int)ViewBag.Count > 12)
+    {
+        <div align="center">
+            @{ Html.RenderAction("Pagination", "Components", new { count = (int)ViewBag.Count, current = (int)ViewBag.Current}); }
+        </div> 
+    }
+</div>

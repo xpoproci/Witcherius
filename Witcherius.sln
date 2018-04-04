@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BEEC0981-C4F4-4E1B-B4A5-F88EDE80D243}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Witcherius.DAL", "Witcherius\Witcherius.DAL.csproj", "{76DD8F03-AB42-4E72-8500-75306EAFEA0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Witcherius.BL", "Witcherius.BL\Witcherius.BL.csproj", "{4B93F09D-56A4-4961-A945-B1F406D615E5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{7E52DE70-CD18-424E-9676-CAB36E1FA317}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Witcherius.Infrastructure", "Witcherius.Infrastructure\Witcherius.Infrastructure.csproj", "{A5B7FD6C-3886-4867-910E-589B676BADC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingApp", "TestingApp\TestingApp.csproj", "{640C80B4-EE77-49BE-A377-62E62A27F5F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Witcherius.BL.Tests", "Witcherius.BL.Tests\Witcherius.BL.Tests.csproj", "{88214DA8-E264-42B7-9859-313E7C88F9B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Witcherius.PL", "Witcherius.PL\Witcherius.PL.csproj", "{8F30BD9F-8D63-4554-A125-AF3E3C05F669}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{76DD8F03-AB42-4E72-8500-75306EAFEA0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76DD8F03-AB42-4E72-8500-75306EAFEA0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76DD8F03-AB42-4E72-8500-75306EAFEA0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76DD8F03-AB42-4E72-8500-75306EAFEA0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B93F09D-56A4-4961-A945-B1F406D615E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B93F09D-56A4-4961-A945-B1F406D615E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B93F09D-56A4-4961-A945-B1F406D615E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B93F09D-56A4-4961-A945-B1F406D615E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5B7FD6C-3886-4867-910E-589B676BADC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5B7FD6C-3886-4867-910E-589B676BADC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5B7FD6C-3886-4867-910E-589B676BADC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5B7FD6C-3886-4867-910E-589B676BADC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{640C80B4-EE77-49BE-A377-62E62A27F5F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{640C80B4-EE77-49BE-A377-62E62A27F5F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{640C80B4-EE77-49BE-A377-62E62A27F5F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{640C80B4-EE77-49BE-A377-62E62A27F5F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88214DA8-E264-42B7-9859-313E7C88F9B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88214DA8-E264-42B7-9859-313E7C88F9B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88214DA8-E264-42B7-9859-313E7C88F9B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88214DA8-E264-42B7-9859-313E7C88F9B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F30BD9F-8D63-4554-A125-AF3E3C05F669}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F30BD9F-8D63-4554-A125-AF3E3C05F669}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F30BD9F-8D63-4554-A125-AF3E3C05F669}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F30BD9F-8D63-4554-A125-AF3E3C05F669}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A5B7FD6C-3886-4867-910E-589B676BADC7} = {7E52DE70-CD18-424E-9676-CAB36E1FA317}
+		{88214DA8-E264-42B7-9859-313E7C88F9B1} = {BEEC0981-C4F4-4E1B-B4A5-F88EDE80D243}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AE5D6FF5-8EEC-4F50-8154-E9E099C343A4}
+	EndGlobalSection
+EndGlobal

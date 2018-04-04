@@ -1,0 +1,120 @@
+﻿@model Witcherius.BL.DataTransferObjects.Character.CharacterCreateDto
+
+@{
+    ViewBag.Title = "Create Character";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Create Character</h2>
+<hr />
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-sm-4 form-horizontal right">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "textbox" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.School, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EnumDropDownListFor(model => model.School, new { @class = "textbox", @onChange = "ChangeImage(\'"+ @Url.Content("~/Content/images/chars/") + "\'); return false;" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Race, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EnumDropDownListFor(model => model.Race, new { @class = "textbox", @onChange = "ChangeImage(\'" + @Url.Content("~/Content/images/chars/") + "\'); return false;" })
+                </div>
+            </div>
+
+            <div class="form-group hidden">
+                @Html.HiddenFor(model => model.UserId, new { Value = ViewBag.UserId })
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="button" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 text-center">
+            <img id ="avatar" src="@Url.Content("~/Content/images/chars/human_wolf.jpg")" alt="character image" />
+        </div>
+        <div class="col-sm-4">
+            <table class="table table-responsive table-bordered">
+                <tbody>
+                <tr>
+                    <td width="30px">HP:</td>
+                    <td>
+                        <div class="progress">
+                            <div id="hp" class="progress-bar" style="width: 70%; background-color: #00b615" role="progressbar"><span id="hp_desc">0</span></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Def:</td>
+                    <td>
+                        <div class="progress">
+                            <div id="def" class="progress-bar" style="width: 70%" role="progressbar"><span id="def_desc">0</span></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Attack:</td>
+                    <td>
+                        <div class="progress">
+                            <div id="att" class="progress-bar" style="width: 70%; background-color: #990707" role="progressbar"><span id="att_desc">0</span></div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+<script>
+    function ChangeAttributes(school, race) {
+        var races = [[1.8, 1.8, 1.8], [2.2, 1.6, 1.6], [1.7, 2, 2]];
+
+        var schools = [[1.8, 1.8, 1.8], [1.5, 2, 2], [2, 1.7, 1.7], [1.9, 1.9, 1.7], [1.7, 1.8, 2]];
+
+        var attributes = [1, 1, 1];
+        var base = [10, 10, 15];
+
+        for (var i = 0; i < attributes.length; i++) {
+            attributes[i] = base[i] * schools[parseInt(school)][i];
+        }
+        for (var j = 0; j < attributes.length; j++) {
+            attributes[j] = attributes[j] * races[parseInt(race)][j];
+        }
+        document.getElementById("att").style.width = ((attributes[0] / 65) * 100 + "%");
+        document.getElementById('att_desc').innerHTML = (Math.floor(attributes[0]).toString());
+        document.getElementById("def").style.width = ((attributes[1] / 65) * 100 + "%");
+        document.getElementById('def_desc').innerHTML = (Math.floor(attributes[1]).toString());
+        document.getElementById("hp").style.width = ((attributes[2] / 65) * 100 + "%");
+        document.getElementById('hp_desc').innerHTML = (Math.floor(attributes[2]).toString());
+    }
+
+    function ChangeImage(url) {
+        var races = ["human", "elf", "dwarf"];
+        var schools = ["wolf", "bear", "cat", "viper", "griffin"];
+        var img = document.getElementById("avatar");
+        var bp = url;
+        var race = document.getElementById("Race");
+        var school = document.getElementById("School");
+        img.src = bp + races[race.value] + "_" + schools[school.value] + ".jpg";
+        ChangeAttributes(school.value, race.value);
+    }
+
+    ChangeAttributes(0, 0);
+</script>

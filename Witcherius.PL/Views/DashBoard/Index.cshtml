@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<div class="row">
+    <table class="table table-mine">
+        <tbody>
+        <tr>
+            <td>
+                <a class="btn btn-primary" href="@Url.Action("Index", "Item")">Quest items <span class="badge">@ViewBag.Items</span></a>
+                <a class="btn btn-primary" href="@Url.Action("Index", "Store")">Items in shops <span class="badge">@ViewBag.ShopItems</span></a>
+            </td>
+        </tr>
+        <tr>
+            <td><a class="btn btn-primary" href="@Url.Action("Index", "Monster")">Monsters <span class="badge">@ViewBag.Monsters</span></a></td>
+        </tr>
+        <tr>
+            <td>
+                @{
+                    if (ViewBag.Items <= 0 || ViewBag.Monsters <= 0)
+                    {
+                        <button type="button" class="btn btn-primary disabled">Quests <span class="badge">0</span></button>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary" href="@Url.Action("Index", "Quest")">Quests <span class="badge">@ViewBag.Quests</span></a>
+                    }
+                }
+</td>
+        </tr>
+        <tr>
+            <td>
+                @{
+                    if (ViewBag.Quests <= 0)
+                    {
+                        <button type="button" class="btn btn-primary disabled">MiniLocations <span class="badge">0</span></button>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary" href="@Url.Action("Index", "MiniLocation")">MiniLocations <span class="badge">@ViewBag.Mini</span></a>
+                    }
+                }
+</td>
+        </tr>
+        <tr>
+            <td>
+                @{
+                    if (ViewBag.Mini <= 0)
+                    {
+                        <button type="button" class="btn btn-primary disabled">Locations <span class="badge">0</span></button>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary" href="@Url.Action("Index", "Location")">Locations <span class="badge">@ViewBag.Locations</span></a>
+                    }
+                }
+            </td>
+        </tr>
+        
+        </tbody>
+    </table>
+</div>

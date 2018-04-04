@@ -1,0 +1,17 @@
+﻿@model Witcherius.BL.DataTransferObjects.Messages.MessageDto
+
+@{
+    ViewBag.Title = "Message Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Message Detail</h2>
+
+<div>
+    <p>Message arrived: @Model.Arrived.ToShortDateString()</p>
+    <hr />
+    <p>@Model.MessageText</p>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Messages")
+</p>

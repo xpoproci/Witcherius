@@ -1,0 +1,39 @@
+﻿@using Witcherius.BL.DataTransferObjects.User
+@using Witcherius.PL.Helpers
+
+@model IEnumerable<UserDto>
+@{
+    ViewBag.Title = "Hall of Fame";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Hall of Fame</h2>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Character.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Score)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <a href="@Url.Action("Detail", "Character", new {id=item.Character.Id})">@Html.DisplayFor(modelItem => item.Character.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Score)
+            </td>
+            <td>
+                @if (item.Username != User.Identity.Name)
+                {
+                    @Html.ActionLink("Fight", "Fight", new { controller = "Combat", id = item.Id })
+                }
+            </td>
+        </tr>
+    }
+</table>
+

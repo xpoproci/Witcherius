@@ -1,0 +1,158 @@
+﻿@model Witcherius.PL.Models.CombatModel
+
+@{
+    ViewBag.Title = "Fight";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Fight for honor</h2>
+
+<div id="winner" class="alert alert-success">Congratuluations u succsessfuly defeated your opponent</div>
+<div id="looser" class="alert alert-danger">We are sorry but you have lost the match, you need to recover now.</div>
+<div id="info-combat" class="alert alert-info"></div>
+
+<div class="row" align="center">
+    <div class="col-xs-4" align="center">
+        <h2 align="center">@Model.Player1.Character.Name</h2>
+        <img src="@Url.Content("~/Content/images/chars/" + Model.Player1.Character.Avatar())" alt="character avatar" class="img-responsive" />
+        <table class="table table-mine">
+            <tbody>
+            <tr>
+                <td>Damage</td>
+                <td>@Model.Player1.Character.CalculateAttributes().Damage</td>
+            </tr>
+            <tr>
+                <td>HP</td>
+                <td>@Model.Player1.Character.CalculateAttributes().Hp</td>
+            </tr>
+            <tr>
+                <td>Defense</td>
+                <td>@Model.Player1.Character.CalculateAttributes().Defense</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-xs-4" align="center">
+        <table class="table table-mine" style="margin-top: 50%">
+        </table>
+        <button class="button" id="fighting" style="text-decoration: none;" onclick="fight()">FIGHT</button>
+        <button class="button" id="fighting-for-credits" style="text-decoration: none;" onclick="fightCredits()">FIGHT (10 CREDITS)</button>
+    </div>
+    <div class="col-xs-4" align="center">
+        <h2 align="center">@Model.Player2.Character.Name</h2>
+        <img src="@Url.Content("~/Content/images/chars/" + Model.Player2.Character.Avatar())" alt="character 2 image" class="img-responsive" />
+        <table class="table table-mine">
+            <tbody>
+                <tr>
+                    <td>Damage</td>
+                    <td>@Model.Player2.Character.CalculateAttributes().Damage</td>
+                </tr>
+                <tr>
+                    <td>HP</td>
+                    <td>@Model.Player2.Character.CalculateAttributes().Hp</td>
+                </tr>
+                <tr>
+                    <td>Defense</td>
+                    <td>@Model.Player2.Character.CalculateAttributes().Defense</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-xs-12">
+        <table class="table table-mine">
+            <tbody id="messages"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#winner').hide();
+        $('#looser').hide();
+        $('#info-combat').hide();
+        $('#fighting-for-credits').hide();
+        if (@Model.Player2.Character.CurrentHp <= 0) {
+            $('#fighting').hide();
+            $('#info-combat')
+                .append(
+                    "It wouldn't be very nice if you attacked your opponent right now. He needs to lick his wounds first.");
+            $('#info-combat').fadeIn();
+        }
+    });
+
+    function fightCredits() {
+        $('#fighting-for-credits').hide();
+        $('#info-combat').hide();
+        $.ajax
+        ({
+            type: 'POST',
+            url: '@Url.Action("FightForCredits", "Combat")',
+            dataType: 'json',
+            async: true,
+            success: function (data) {
+                if (data.CanFight) {
+                    fight();
+                } else {
+                    $('#info-combat').empty();
+                    var link = '@Url.Action("Detail", "User")';
+                    $('#info-combat').append("We are sorry but you do not have enough credits. Buy some <a href='" + link + "'>here</a>");
+                    $('#info-combat').fadeIn();
+                }
+            },
+            error: function (ex) {
+                var r = jQuery.parseJSON(response.responseText);
+                alert("Message: " + r.Message);
+            }
+        });
+        return false;
+    };
+
+    function fight() {
+        $.ajax
+        ({
+            type: 'POST',
+            url: '@Url.Action("GetMessagesChar", "Combat", new { userId = Model.Player2.Id})',
+            dataType: 'json',
+            async: true,
+            success: function (data) {
+                $("#fighting").hide();
+                if (data.List.length > 1) {
+                    $.each(data.List, function (i, item) {
+                        setTimeout(function () {
+                            var d = $('<tr><td>' + item.Message + '</td></tr>');
+                            $('#messages').prepend(d);
+                            d.hide();
+                            d.fadeIn();
+                        }, 400 * (i + 1));
+                    });
+
+                    if (data.Winner) {
+                        setTimeout(function () {
+                                $('#winner').fadeIn();
+                            },
+                            400 * (data.List.length + 1));
+                    } else {
+                        setTimeout(function () {
+                                $('#looser').fadeIn();
+                            },
+                            400 * (data.List.length + 1));
+                    }
+                } else {
+                    $.each(data.List,
+                        function (i, item) {
+                            $('#info-combat').append("" + item.Message + "");
+                        });
+                    $('#fighting-for-credits').fadeIn();
+                    $('#info-combat').fadeIn();
+                }
+
+
+            },
+            error: function (ex) {
+                var r = jQuery.parseJSON(response.responseText);
+                alert("Message: " + r.Message);
+            }
+        });
+        return false;
+    };
+</script>

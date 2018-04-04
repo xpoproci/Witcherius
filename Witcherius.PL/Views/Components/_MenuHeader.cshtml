@@ -1,0 +1,13 @@
+﻿@model IEnumerable<Witcherius.PL.Models.MenuItemModel>
+
+@foreach (var item in Model)
+{
+    if (item.Area != null)
+    {
+        <li>@Html.ActionLink(item.Text, item.Action, item.Controller, new {area = item.Area}, null)</li>
+    }
+    else
+    {
+        <li>@Html.ActionLink(item.Text, item.Action, item.Controller)</li>
+    }
+}

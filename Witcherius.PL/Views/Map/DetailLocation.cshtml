@@ -1,0 +1,28 @@
+﻿@using Witcherius.BL.DataTransferObjects.MiniLocation
+@using Witcherius.PL.Helpers
+@model Witcherius.BL.DataTransferObjects.Location.LocationDto
+
+@{
+    ViewBag.Title = "Locations";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Name</h2>
+<div class="row">
+    @foreach (var miniLocationDto in Model.MiniLocation)
+    {
+        <div class="col-xs-3 location">
+            <img src="@Url.Content("~/Content/images/locations/" + miniLocationDto.Image)" class="img-responsive" alt="@miniLocationDto.Name" />
+            <div style="margin: 10px">
+                <h4>@miniLocationDto.Name</h4>
+                <p style="margin-top: 10px; height: 90px;">@miniLocationDto.Description<br/><br/>
+                    Experience: @miniLocationDto.Quest.Experience<br />
+                    Gold: @miniLocationDto.Quest.Gold</p>
+                
+                <div align="center" style="margin-left: -5px; margin-top: 10px;">
+                    <a href="@Url.Action("Quest","Map", new {id = miniLocationDto.Id })" class="button" style="text-decoration: none;">Inspect</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4B93F09D-56A4-4961-A945-B1F406D615E5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Witcherius.BL</RootNamespace>
+    <AssemblyName>Witcherius.BL</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.2.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.2.0\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Windsor.4.1.0\lib\net45\Castle.Windsor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Moq, Version=4.7.145.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.7.145\lib\net45\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Config\BlInstaller.cs" />
+    <Compile Include="Config\MappingConfig.cs" />
+    <Compile Include="DataTransferObjects\Attributes\AttributesDto.cs" />
+    <Compile Include="DataTransferObjects\Character\CharacterCreateDto.cs" />
+    <Compile Include="DataTransferObjects\Character\CharacterDto.cs" />
+    <Compile Include="DataTransferObjects\Character\CharacterUpdateDto.cs" />
+    <Compile Include="DataTransferObjects\Combat\CombatDto.cs" />
+    <Compile Include="DataTransferObjects\Common\BaseDto.cs" />
+    <Compile Include="DataTransferObjects\Equipment\EquipmentDto.cs" />
+    <Compile Include="DataTransferObjects\Equipment\EquipmentEditDto.cs" />
+    <Compile Include="DataTransferObjects\InventoryItems\InventoryItemsDto.cs" />
+    <Compile Include="DataTransferObjects\Inventory\InventoryDto.cs" />
+    <Compile Include="DataTransferObjects\Inventory\InventoryEditDto.cs" />
+    <Compile Include="DataTransferObjects\Item\ItemDto.cs" />
+    <Compile Include="DataTransferObjects\Item\ItemEditDto.cs" />
+    <Compile Include="DataTransferObjects\Location\LocationDto.cs" />
+    <Compile Include="DataTransferObjects\Messages\MessageDto.cs" />
+    <Compile Include="DataTransferObjects\Messages\MessageEditDto.cs" />
+    <Compile Include="DataTransferObjects\MiniLocation\InspectMiniLocationDto.cs" />
+    <Compile Include="DataTransferObjects\MiniLocation\MiniLocationDto.cs" />
+    <Compile Include="DataTransferObjects\MiniLocation\MiniLocationEditDto.cs" />
+    <Compile Include="DataTransferObjects\Monster\MonsterDto.cs" />
+    <Compile Include="DataTransferObjects\Monster\MonsterEditDto.cs" />
+    <Compile Include="DataTransferObjects\Quest\QuestDto.cs" />
+    <Compile Include="DataTransferObjects\Quest\QuestEditDto.cs" />
+    <Compile Include="DataTransferObjects\Shop\ShopDto.cs" />
+    <Compile Include="DataTransferObjects\Shop\ShopEditDto.cs" />
+    <Compile Include="DataTransferObjects\User\UserCreateDto.cs" />
+    <Compile Include="DataTransferObjects\User\UserDto.cs" />
+    <Compile Include="DataTransferObjects\User\UserEditDto.cs" />
+    <Compile Include="Enums\ArmorClass.cs" />
+    <Compile Include="Enums\Quality.cs" />
+    <Compile Include="Enums\Race.cs" />
+    <Compile Include="Enums\School.cs" />
+    <Compile Include="Facades\AttributesFacade.cs" />
+    <Compile Include="Facades\CharacterFacade.cs" />
+    <Compile Include="Facades\CombatFacade.cs" />
+    <Compile Include="Facades\Common\BaseFacade.cs" />
+    <Compile Include="Facades\EquipmentFacade.cs" />
+    <Compile Include="Facades\LocationFacade.cs" />
+    <Compile Include="Facades\MiniLocationFacade.cs" />
+    <Compile Include="Facades\MonsterFacade.cs" />
+    <Compile Include="Facades\QuestFacade.cs" />
+    <Compile Include="Facades\ShopFacade.cs" />
+    <Compile Include="Facades\UserFacade.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Attributes\AttributesService.cs" />
+    <Compile Include="Services\Attributes\IAttributesService.cs" />
+    <Compile Include="Services\Character\CharacterService.cs" />
+    <Compile Include="Services\Character\ICharacterService.cs" />
+    <Compile Include="Services\Common\CrudService.cs" />
+    <Compile Include="Services\Common\ServicesBase.cs" />
+    <Compile Include="Services\Equipment\EquipmentService.cs" />
+    <Compile Include="Services\Equipment\IEquipmentService.cs" />
+    <Compile Include="Services\InventoryItems\IInventoryItemsService.cs" />
+    <Compile Include="Services\InventoryItems\InventoryItemsService.cs" />
+    <Compile Include="Services\Inventory\IInventoryService.cs" />
+    <Compile Include="Services\Inventory\InventoryService.cs" />
+    <Compile Include="Services\Item\IItemService.cs" />
+    <Compile Include="Services\Item\ItemService.cs" />
+    <Compile Include="Services\Location\ILocationService.cs" />
+    <Compile Include="Services\Location\LocationService.cs" />
+    <Compile Include="Services\Message\IMessageService.cs" />
+    <Compile Include="Services\Message\MessageService.cs" />
+    <Compile Include="Services\MiniLocation\IMiniLocationService.cs" />
+    <Compile Include="Services\MiniLocation\MiniLocationService.cs" />
+    <Compile Include="Services\Monster\IMonsterService.cs" />
+    <Compile Include="Services\Monster\MonsterService.cs" />
+    <Compile Include="Services\Quest\IQuestService.cs" />
+    <Compile Include="Services\Quest\QuestService.cs" />
+    <Compile Include="Services\Shop\IShopService.cs" />
+    <Compile Include="Services\Shop\ShopService.cs" />
+    <Compile Include="Services\User\IUserService.cs" />
+    <Compile Include="Services\User\UserService.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Witcherius.Infrastructure\Witcherius.Infrastructure.csproj">
+      <Project>{a5b7fd6c-3886-4867-910e-589b676badc7}</Project>
+      <Name>Witcherius.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Witcherius\Witcherius.DAL.csproj">
+      <Project>{76dd8f03-ab42-4e72-8500-75306eafea0e}</Project>
+      <Name>Witcherius.DAL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

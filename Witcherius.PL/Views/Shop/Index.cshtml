@@ -1,0 +1,22 @@
+﻿@model IEnumerable<Witcherius.BL.DataTransferObjects.Shop.ShopDto>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Shops</h2>
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-xs-2 shop-info">
+            <img src="@Url.Content("~/Content/images/shops/shop_" + item.ArmorClass.ToString().ToLower() + ".jpg")" class="img-responsive" alt="@item.Name" />
+            <div style="margin: 10px">
+                <h4>@item.Name</h4>
+                <div align="center" style="margin-left: -5px; margin-top: 10px;">
+                    <a href="@Url.Action("Detail","Shop", new { id = item.Id})" class="button" style="text-decoration: none;">Enter</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

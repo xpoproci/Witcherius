@@ -1,0 +1,24 @@
+﻿@using Witcherius.PL.Helpers
+@model IEnumerable<Witcherius.BL.DataTransferObjects.Location.LocationDto>
+
+@{
+    ViewBag.Title = "Locations";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Locations</h2>
+<div class="row">
+    @foreach (var location in Model)
+    {
+        <div class="col-xs-2 location">
+            <img src="@Url.Content("~/Content/images/locations/" + location.Image)" class="img-responsive" alt="@location.Name" />
+            <div style="margin: 10px">
+                <h3>@location.Name</h3>
+                <div class="vertically"><p>@location.Description</p></div>
+                <div align="center" style="margin-left: -5px; margin-top: 10px;">
+                    <a href="@Url.Action("DetailLocation","Map", new { id = location.Id})" class="button" style="text-decoration: none;">Enter</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

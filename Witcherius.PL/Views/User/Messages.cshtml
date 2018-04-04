@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Witcherius.BL.DataTransferObjects.Messages.MessageDto>
+
+@{
+    ViewBag.Title = "Messages";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Messages</h2>
+
+<table class="table">
+    <tr>
+        <th>
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        @if (item.IsRead)
+        {
+            <td>
+                <a href="@Url.Action("MessageDetail", new {id = item.Id})">@Html.DisplayFor(modelItem => item.MessageText)</a>
+            </td>
+        }
+        else
+        {
+            <td class="active">
+                <a href="@Url.Action("MessageDetail", new { id=item.Id })">@Html.DisplayFor(modelItem => item.MessageText)</a>
+            </td>
+        }
+
+    </tr>
+}
+
+</table>
+@if ((int)ViewBag.Count > 10)
+{
+    <div align="center">
+        @{ Html.RenderAction("Pagination", "Components", new { count = (int)ViewBag.Count, current = (int)ViewBag.Current}); }
+    </div> 
+}

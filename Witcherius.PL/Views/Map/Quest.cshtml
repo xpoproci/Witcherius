@@ -1,0 +1,162 @@
+﻿@using Witcherius.PL.Helpers
+@model Witcherius.BL.DataTransferObjects.MiniLocation.InspectMiniLocationDto
+
+
+@{
+    ViewBag.Title = "Inspect";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>@Model.MiniLocationDto.Name</h2>
+
+<div id="winner" class="alert alert-success">Congratuluations u succsessfuly defeated your opponent</div>
+<div id="looser" class="alert alert-danger">We are sorry but you have lost the match, you need to recover now.</div>
+<div id="info-combat" class="alert alert-info"></div>
+
+<div class="row" align="center">
+    <div class="col-xs-4" align="center">
+        <h2 align="center">@Model.CharacterDto.Name</h2>
+        <img src="@Url.Content("~/Content/images/chars/" + Model.CharacterDto.Avatar())" alt="character avatar" class="img-responsive" />
+        <table class="table table-mine">
+            <tbody>
+                <tr>
+                    <td>Damage</td>
+                    <td>@Model.CharacterDto.CalculateAttributes().Damage / @Model.CharacterDto.Attributes.Damage</td>
+                </tr>
+                <tr>
+                    <td>HP</td>
+                    <td>@Model.CharacterDto.CalculateAttributes().Hp / @Model.CharacterDto.Attributes.Hp</td>
+                </tr>
+                <tr>
+                    <td>Defense</td>
+                    <td>@Model.CharacterDto.CalculateAttributes().Defense / @Model.CharacterDto.Attributes.Defense</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-xs-4" align="center">
+        <table class="table table-mine" style="margin-top: 50%">
+            <tbody>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.MiniLocationDto.Quest.Experience)</td>
+                    <td>@Html.DisplayFor(model => model.MiniLocationDto.Quest.Experience)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.MiniLocationDto.Quest.Gold)</td>
+                    <td>@Html.DisplayFor(model => model.MiniLocationDto.Quest.Gold)</td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="button" id="fighting" style="text-decoration: none;" onclick="fight()">FIGHT</button>
+        <button class="button" id="fighting-for-credits" style="text-decoration: none;" onclick="fightCredits()">FIGHT (10 CREDITS)</button>
+    </div>
+    <div class="col-xs-4" align="center">
+        <h2 align="center">@Model.MonsterDto.Name</h2>
+        <img src="@Url.Content("~/Content/images/monsters/" + @Model.MiniLocationDto.Quest.Monster.Image)" alt="Monster image" class="img-responsive" />
+        <table class="table table-mine">
+            <tbody>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.MiniLocationDto.Quest.Monster.Attributes.Damage)</td>
+                    <td>@Html.DisplayFor(model => model.MiniLocationDto.Quest.Monster.Attributes.Damage)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.MiniLocationDto.Quest.Monster.Attributes.Hp)</td>
+                    <td>@Html.DisplayFor(model => model.MiniLocationDto.Quest.Monster.Attributes.Hp)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.MiniLocationDto.Quest.Monster.Attributes.Defense)</td>
+                    <td>@Html.DisplayFor(model => model.MiniLocationDto.Quest.Monster.Attributes.Defense)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-xs-12">
+        <table class="table table-mine">
+            <tbody id="messages"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#winner').hide();
+        $('#looser').hide();
+        $('#info-combat').hide();
+        $('#fighting-for-credits').hide();
+    });
+
+    function fightCredits() {
+        $('#fighting-for-credits').hide();
+        $('#info-combat').hide();
+        $.ajax
+        ({
+            type: 'POST',
+            url: '@Url.Action("FightForCredits", "Combat")',
+            dataType: 'json',
+            async: true,
+            success: function (data) {
+                if (data.CanFight) {
+                    fight();
+                } else {
+                    $('#info-combat').empty();
+                    var link = '@Url.Action("Detail", "User")';
+                    $('#info-combat').append("We are sorry but you do not have enough credits. Buy some <a href='" + link + "'>here</a>");
+                    $('#info-combat').fadeIn();
+                }
+            },
+            error: function (ex) {
+                var r = jQuery.parseJSON(response.responseText);
+                alert("Message: " + r.Message);
+            }
+        });
+        return false;
+    };
+
+    function fight() {
+        $.ajax
+        ({
+            type: 'POST',
+            url: '@Url.Action("GetMessagesMonster", "Combat", new {qId = Model.QuestDto.Id})',
+            dataType: 'json',
+            async: true,
+            success: function (data) {
+                $("#fighting").hide();
+                if (data.List.length > 1) {
+                    $.each(data.List, function (i, item) {
+                        setTimeout(function () {
+                            var d = $('<tr><td>' + item.Message + '</td></tr>');
+                            $('#messages').prepend(d);
+                            d.hide();
+                            d.fadeIn();
+                        }, 400 * (i + 1));
+                    });
+
+                    if (data.Winner) {
+                        setTimeout(function () {
+                            $('#winner').fadeIn();
+                        },
+                            400 * (data.List.length + 1));
+                    } else {
+                        setTimeout(function () {
+                            $('#looser').fadeIn();
+                        },
+                            400 * (data.List.length + 1));
+                    }
+                } else {
+                    $.each(data.List,
+                        function (i, item) {
+                            $('#info-combat').append("" + item.Message + "");
+                        });
+                    $('#fighting-for-credits').fadeIn();
+                    $('#info-combat').fadeIn();
+                }
+
+
+            },
+            error: function (ex) {
+                var r = jQuery.parseJSON(response.responseText);
+                alert("Message: " + r.Message);
+            }
+        });
+        return false;
+    };
+</script>

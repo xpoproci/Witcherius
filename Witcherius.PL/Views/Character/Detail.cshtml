@@ -1,0 +1,139 @@
+﻿@using System.Activities.Expressions
+@using System.Globalization
+@using Microsoft.Ajax.Utilities
+@using Witcherius.BL.Enums
+@using Witcherius.PL.Helpers
+@model Witcherius.BL.DataTransferObjects.Character.CharacterDto
+
+@{
+    ViewBag.Title = "Character Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+    <h4>@Model.Name</h4>
+    <hr />
+    <div class="row clearfix">
+        <div class="col-xs-5">
+            <div align="center">
+                <img src="@Url.Content("~/Content/images/chars/"+ Model.Avatar())" alt="character avatar" />
+                @if (ViewBag.isMine){
+                    <div style="margin-top: 20px">
+                        <p>You will not be able to fight for an hour if you rest.</p>
+                        <a class="button" style="text-decoration: none" href="@Url.Action("Rest", new {charId = Model.Id})">Rest</a>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-xs-7">
+            <div class="progress" style="margin-bottom:20px;">
+                @{ var percentage = ((Model.CurrentHp / ((float)Model.CalculateAttributes().Hp * 10)) * 100); }
+                <div id="att" class="progress-bar" style="width: @percentage.ToString("0.000", CultureInfo.InvariantCulture)%; background-color: #008000;" role="progressbar"><span id="att_desc">@percentage.ToString("0", CultureInfo.InvariantCulture) %</span></div>
+            </div>
+            <table class="table table-mine">
+                <tbody>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Level)</td>
+                        <td>@Html.DisplayFor(model => model.Level)</td>
+                    </tr>
+
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.CalculateAttributes().Damage)</td>
+                        <td>@Html.DisplayFor(model => model.CalculateAttributes().Damage) / @Html.DisplayFor(model => model.Attributes.Damage)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.CalculateAttributes().Hp)</td>
+                        <td>@Html.DisplayFor(model => model.CalculateAttributes().Hp) / @Html.DisplayFor(model => model.Attributes.Hp)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.CalculateAttributes().Defense)</td>
+                        <td>@Html.DisplayFor(model => model.CalculateAttributes().Defense) / @Html.DisplayFor(model => model.Attributes.Defense)</td>
+                    </tr>
+
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Gold)</td>
+                        <td>@Html.DisplayFor(model => model.Gold)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+                @{
+                    foreach (var itemDto in Model.Equipment.ListItems())
+                    {
+                        <div class="equip">
+                            @if (itemDto == null)
+                            {
+                                <img src="@Url.Content("~/Content/images/items/empty.jpg")" data-toggle="tooltip" data-placement="right" title="Empty" />
+                                <span>Empty Space</span>
+                            }
+                            else
+                            {
+                                <img src="@Url.Content("~/Content/images/items/" + itemDto.Image)" data-toggle="tooltip" data-placement="right" title="@itemDto.Name" />
+                                <span>@itemDto.Name</span><br />
+                                <span class="hp">Hp <i class="glyphicon glyphicon-heart">@itemDto.Attributes.Hp</i></span>
+                                <span class="def">Defense <i class="glyphicon glyphicon-stats">@itemDto.Attributes.Defense</i></span>
+                                <span class="att">Damage <i class="glyphicon glyphicon-fire">@itemDto.Attributes.Damage</i></span>
+                            }
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+
+    @if (ViewBag.isMine)
+    {
+        <h4>Inventory</h4>
+        <hr />
+        <div class="row">
+            <div class="clearfix">
+                @for (var i = 0; i < Model.Inventory.MaxSize; i++)
+                {
+                    try
+                    {
+                        var item = Model.Inventory.Items.ToList()[i];
+                        <div class="col-xs-1 item-detail">
+                            <img src="@Url.Content("~/Content/images/items/" + item.Item.Image)" data-toggle="tooltip" data-placement="right" title="@item.Item.Name" />
+                            <span class="hp"><i class="glyphicon glyphicon-heart">@item.Item.Attributes.Hp</i></span>
+                            <span class="def"><i class="glyphicon glyphicon-stats">@item.Item.Attributes.Defense</i></span>
+                            <span class="att"><i class="glyphicon glyphicon-fire">@item.Item.Attributes.Damage</i></span><br/>
+                            @if (item.Item.RequiredLevel > Model.Level)
+                            {
+                                <span>Low Level(@item.Item.RequiredLevel)</span><br/>
+                            }
+                            else
+                            {
+                                if (item.Item.ArmorClass == ArmorClass.Consumable)
+                                {
+                                    <a href="@Url.Action("EatItem", new {item.ItemId, charId = Model.Id})">Eat Item</a><br />
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("EquipItem", new {item.ItemId, charId = Model.Id})">Equip Item</a><br />
+                                }
+                            }
+
+                            <a href="@Url.Action("SellItem", new {item.ItemId, charId = Model.Id})">Sell (@item.Item.Price)</a>
+                        </div>
+                    }
+                    catch (Exception e)
+                    {
+                        <div class="col-xs-1 item-detail">
+                            <img src="@Url.Content("~/Content/images/items/empty.jpg")" data-toggle="tooltip" data-placement="right" title="Empty Space" />
+                            Empty space
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    }
+
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
+

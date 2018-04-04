@@ -1,0 +1,36 @@
+﻿@model Witcherius.BL.DataTransferObjects.User.UserDto
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Detail</h2>
+<div>
+    <h4>User Profile</h4>
+    <hr />
+    <div class="row">
+        <div class="col-xs-12">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Username)</td>
+                        <td>@Html.DisplayFor(model => model.Username)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Character.Name)</td>
+                        <td>
+                            @(Model.Character != null ? Html.ActionLink(Model.Character.Name, "Detail", "Character", new {id = Model.Character.Id}, null) : Html.ActionLink("Create new Character", "Create", "Character", new {id = Model.Id}, null))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Credits)</td>
+                        <td>@Html.DisplayFor(model => model.Credits) @Html.ActionLink("Buy Credits!", "BuyCredit", new {id = Model.Id})</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Score)</td>
+                        <td>@Html.DisplayFor(model => model.Score)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
